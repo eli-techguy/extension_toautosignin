@@ -49,9 +49,9 @@ function checkForModalDialog() {
                         console.error("Password Next button not found.");
                       }
                     }
-                  }, 2000);
+                  }, 0);
                 }
-              }, 2000);
+              }, 0);
             } catch (error) {
               console.error("Error during sign-in actions:", error);
             }
