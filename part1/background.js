@@ -1,4 +1,4 @@
-// Function to check for the modal dialog | sign-in popup
+// Function to check for the modal dialog
 function checkForModalDialog() {
   chrome.tabs.query({ active: true, currentWindow: true }, function(tabs) {
     const tab = tabs[0];
@@ -10,17 +10,16 @@ function checkForModalDialog() {
           if (modalDialog) {
             console.log('Modal dialog detected on Google subpage');
 
-            // Perform sign-in action
+            // Perform sign-in actions
             try {
               // Click the "Sign in" button
               document.querySelector("button[name='si']").click();
             } catch (error) {
               console.error("Error during sign-in actions:", error);
             }
-
-            //Check for new Sign In Window | CHANGE AUTHUSER NUMBER DEPENDING ON THE ACCOUNT YOU WANT
+            //MODIFY DEPENDING ON YOUR AUTHUSER!!!!! SO IT DETECTS IT PROPERLY
           } else if (window.location.href.includes("confirmidentifier?authuser=1")) {
-            // If on the second page, perform sign-in wwactions
+            // If on the second page, perform sign-in actions
             try {
               // Wait until the "Next" button becomes visible
               const intervalId = setInterval(() => {
@@ -29,25 +28,41 @@ function checkForModalDialog() {
                   console.log("Next button found and visible.");
                   clearInterval(intervalId); // Stop checking
                   nextButton.click(); // Click the "Next" button
-                }
-              }, 2000);
-              
-              // Wait for the password input field to become available
-              const passwordIntervalId = setInterval(() => {
-                const passwordInput = document.querySelector("div#password input[name='Passwd']");
-                if (passwordInput) {
-                  console.log("Password input found.");
-                  // Enter the password
-                  passwordInput.value = "YOURPASSWORD";
-                  clearInterval(passwordIntervalId); // Stop checking
                   
-                  // Simulate a click to ensure the field behaves as expected
-                  passwordInput.click();
+                  // Wait for the password input field to become available
+                  const passwordIntervalId = setInterval(() => {
+                    const passwordInput = document.querySelector("div#password input[name='Passwd']");
+                    if (passwordInput) {
+                      console.log("Password input found.");
+                      // Enter the password | ENTER YOUR OWN
+                      passwordInput.value = "YOURPASSWORD";
+                      clearInterval(passwordIntervalId); // Stop checking
+                      
+                      // Simulate a click to ensure the field behaves as expected
+                      passwordInput.click();
+
+                      // Click the "Next" button after entering the password
+                      const passwordNextButton = document.getElementById("passwordNext");
+                      if (passwordNextButton) {
+                        passwordNextButton.click();
+                      } else {
+                        console.error("Password Next button not found.");
+                      }
+                    }
+                  }, 2000);
                 }
               }, 2000);
             } catch (error) {
               console.error("Error during sign-in actions:", error);
-ww            }
+            }
+          } else {
+            // Reload the original page after signing in | SO IT DOESN'T CONSTANTLY OPEN A NEW TAB TO SIGN IN
+            chrome.scripting.executeScript({
+              target: { tabId: tab.id },
+              function: () => {
+                location.reload();
+              }
+            });
           }
         }
       });
