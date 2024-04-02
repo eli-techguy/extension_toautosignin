@@ -6,19 +6,19 @@ function checkForModalDialog() {
       chrome.scripting.executeScript({
         target: { tabId: tab.id },
         function: () => {
-          const modalDialog = document.querySelector('.modal-dialog.docs-dialog.docs-error-dialog');
+          const modalDialog = document.querySelector('.javascriptMaterialdesignGm3WizDialogRefactored-dialog__surface');
           if (modalDialog) {
             console.log('Modal dialog detected on Google subpage');
-
             // Perform sign-in actions
             try {
               // Click the "Sign in" button
-              document.querySelector("button[name='si']").click();
+              document.querySelector(".javascriptMaterialdesignGm3WizDialogRefactored-dialog__actions button[data-mdc-dialog-action='ok']").click();
             } catch (error) {
               console.error("Error during sign-in actions:", error);
             }
-            //MODIFY DEPENDING ON YOUR AUTHUSER!!!!! SO IT DETECTS IT PROPERLY
-          } else if (window.location.href.includes("confirmidentifier?authuser=1")) {
+          }
+          //MODIFY DEPENDING ON YOUR AUTHUSER!!!!! SO IT DETECTS IT PROPERLY
+          else if (window.location.href.includes("confirmidentifier?authuser=1")) {
             // If on the second page, perform sign-in actions
             try {
               // Wait until the "Next" button becomes visible
