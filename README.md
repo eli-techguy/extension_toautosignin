@@ -1,4 +1,4 @@
-Autosign In Program Extension For Google Chrome or Microsoft Edge
+Autosign In Program Extension For Google Chrome, Microsoft Edge and Firefox
 ==================
 
 ### Description
